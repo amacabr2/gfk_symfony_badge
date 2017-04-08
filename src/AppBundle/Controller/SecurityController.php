@@ -1,21 +1,18 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: amacabr2
- * Date: 08/04/17
- * Time: 13:45
- */
 
 namespace AppBundle\Controller;
 
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 class SecurityController extends Controller {
 
     /**
+     * Formulaire de connection
      * @Route("/login", name="login")
+     * @method ("GET")
      * @return Response
      */
     public function loginAction(): Response {
