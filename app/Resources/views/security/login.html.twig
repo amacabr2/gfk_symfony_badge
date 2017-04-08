@@ -1,2 +1,19 @@
-<h1>Se connecter</h1>
+{% extends  'base.html.twig'%}
 
+{% block body %}
+
+    <h1>Se connecter</h1>
+
+    <form action="{{ path('login') }}" method="post">
+        <div class="form-control">
+            <label for="username">Username : </label>
+            <input type="text" class="form-control" id="username" name="_username" value="{{ last_username }}">
+        </div>
+        <div class="form-control">
+            <label for="password">Password : </label>
+            <input type="password" class="form-control" id="password" name="_password" ">
+        </div>
+        <button class="btn btn-submit">Se connecter</button>
+    </form>
+
+{% endblock %}
