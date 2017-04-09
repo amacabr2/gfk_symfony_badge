@@ -21,7 +21,7 @@ class CommentController extends Controller {
      * @return Response
      */
     public function newCommentController(): Response {
-        return $this->render('Comment/newComment.html.twig');
+        return $this->render('comment/newComment.html.twig');
     }
 
 }
