@@ -39,7 +39,7 @@ class CommentController extends Controller {
             $em->getConnection()->beginTransaction();
             $em->flush();
             $commentsCount = $em->getRepository('AppBundle:Comment')->countForUser($user->getId());
-            $this->get('badge.manager')->checkAndUnlock($user->getId(), 'comment', $commentsCount);
+            $this->get('badge.manager')->checkAndUnlock($user, 'comment', $commentsCount);
             $em->getConnection()->commit();
         }
 

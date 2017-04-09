@@ -2,7 +2,10 @@
 
 namespace Amacabr2\BadgeBundle\Manager;
 
+use Amacabr2\BadgeBundle\Entity\BadgeUnlock;
+use AppBundle\Entity\User;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\NoResultException;
 
 class BadgeManager {
 
@@ -17,23 +20,31 @@ class BadgeManager {
 
     /**
      * Vérifie si le badge existe pour cette action et l'occurrence d'action et l'ouvrir pour l'utilisateur
-     * @param int $userId
+     * @param User $user
      * @param string $action
      * @param int $actionCount
+     * @internal param int $userId
      */
-    public function checkAndUnlock(int $userId, string $action, int $actionCount): void {
+    public function checkAndUnlock(User $user, string $action, int $actionCount): void {
 
-        // Vérifier si on a un badge qui correspond à action et actionCount
-        $badges = $this->em->getRepository('BadgeBundle:Badge')->findWithUnlockForAction($userId, $action, $actionCount);
-        if (!empty($badges)) {
-
+        try {
+            // Vérifier si on a un badge qui correspond à action et actionCount
+            $badge = $this->em->getRepository('BadgeBundle:Badge')->findWithUnlockForAction($user->getId(), $action, $actionCount);
+            // Vérifier si l'utilisateur a déjà ce badge
+            if ($badge->getUnlocks->isEmpty()) {
+                // Débloquer le badge pour l'utilisateur en question
+                $unlock = new BadgeUnlock();
+                $unlock->setBadge($badge);
+                $unlock->setUser($user);
+                $this->em->persist($unlock);
+                $this->em->flush();
+            }
+        } catch (NoResultException $e) {
+            // On ne fait rien
         }
 
-        // Vérifier si l'utilisateur a déjà ce badge
-
-        // Débloquer le badge pour l'utilisateur en question
-
         // Emetter un évènement pour informer l'application du déblocage de base
+
 
     }
 
