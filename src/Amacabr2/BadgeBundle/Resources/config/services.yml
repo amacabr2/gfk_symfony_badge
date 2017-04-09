@@ -1,3 +1,4 @@
 services:
     badge.manager:
         class: Amacabr2\BadgeBundle\Manager\BadgeManager
+        arguments: ['@doctrine.orm.entity_manager']
