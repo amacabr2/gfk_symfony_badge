@@ -70,11 +70,11 @@ class BadgeUnlock
     /**
      * Set user
      *
-     * @param \AppBundle\Entity\Badge $user
+     * @param \AppBundle\Entity\User $user
      *
      * @return BadgeUnlock
      */
-    public function setUser(\AppBundle\Entity\Badge $user = null) {
+    public function setUser(\AppBundle\Entity\User $user = null) {
         $this->user = $user;
 
         return $this;
