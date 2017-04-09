@@ -1,0 +1,4 @@
+services:
+#    badge.example:
+#        class: Amacabr2\BadgeBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]
