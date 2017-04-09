@@ -26,6 +26,19 @@
             {{ form_end(form) }}
         </div>
 
+        <div class="col-lg-4">
+            <h2>Mes badges</h2>
+            {% if badges is empty %}
+                Vous n'avez pas de badge
+            {% else %}
+                <ul class="list-group">
+                {% for badge in badges %}
+                    <li class="list-group-item">{{ badge.name }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
     </div>
 
 {% endblock %}

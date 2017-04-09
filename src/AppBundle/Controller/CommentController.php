@@ -44,10 +44,12 @@ class CommentController extends Controller {
         }
 
         $comments = $em->getRepository('AppBundle:Comment')->findAll();
+        $badges = $this->get('badge.manager')->getBadgeFor($user);
 
         return $this->render('comment/newComment.html.twig', array(
             'comments' => $comments,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'badges' => $badges
         ));
 
     }

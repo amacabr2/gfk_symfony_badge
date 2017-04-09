@@ -25,13 +25,13 @@ class BadgeManager {
      * @param int $actionCount
      * @internal param int $userId
      */
-    public function checkAndUnlock(User $user, string $action, int $actionCount): void {
+    public function checkAndUnlock(User $user, string $action, int $actionCount) {
 
         try {
             // Vérifier si on a un badge qui correspond à action et actionCount
             $badge = $this->em->getRepository('BadgeBundle:Badge')->findWithUnlockForAction($user->getId(), $action, $actionCount);
             // Vérifier si l'utilisateur a déjà ce badge
-            if ($badge->getUnlocks->isEmpty()) {
+            if ($badge->getUnlocks()->isEmpty()) {
                 // Débloquer le badge pour l'utilisateur en question
                 $unlock = new BadgeUnlock();
                 $unlock->setBadge($badge);
@@ -45,7 +45,15 @@ class BadgeManager {
 
         // Emetter un évènement pour informer l'application du déblocage de base
 
+    }
 
+    /**
+     * Récupères les badges de l'utiulisateur courant
+     * @param User $user
+     * @return array
+     */
+    public function getBadgeFor(User $user): array {
+        return $this->em->getRepository('BadgeBundle:Badge')->findUnlockedFor($user->getId());
     }
 
 }

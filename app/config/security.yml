@@ -20,6 +20,9 @@ security:
 
         main:
             anonymous: ~
+            logout:
+                invalidate_session: false
+                path: /logout
             form_login:
                 login_path: login
                 check_path: login

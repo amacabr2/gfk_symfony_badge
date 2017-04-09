@@ -27,12 +27,26 @@ class BadgeRepository extends \Doctrine\ORM\EntityRepository {
             ->andWhere('u.user = :userId OR u.user IS NULL')
             ->leftJoin('b.unlocks', 'u')
             ->setParameters(array(
-               'actionCount' => $actionCount,
-                'actionNAme' => $action,
+                'actionCount' => $actionCount,
+                'actionName' => $action,
                 'userId' => $userId
             ))
             ->getQuery()
             ->getSingleResult();
+    }
+
+    /**
+     * Recupère tous les badges de l'utilisateur indiqué
+     * @param int $userId
+     * @return Badge[]
+     */
+    public function findUnlockedFor(int $userId): array {
+        return $this->createQueryBuilder('b')
+            ->join('b.unlocks', 'u')
+            ->where('u.user = :userId')
+            ->setParameter('userId', $userId)
+            ->getQuery()
+            ->getResult();
     }
 
 }

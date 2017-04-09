@@ -21,14 +21,10 @@ class SecurityController extends Controller {
         $error = $authentificationUtils->getLastAuthenticationError();
         $lastUsername = $authentificationUtils->getLastUsername();
 
-        if ($error) {
-            return $this->render('security/login.html.twig', array(
-                'error' => $error,
-                'last_username' => $lastUsername
-            ));
-        } else {
-            return $this->redirectToRoute('comment_create');
-        }
+        return $this->render('security/login.html.twig', array(
+            'error' => $error,
+            'last_username' => $lastUsername
+        ));
 
     }
 
