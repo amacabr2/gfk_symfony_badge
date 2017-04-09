@@ -30,6 +30,7 @@ class AppMailer {
     /**
      * Création d'un mail pour annoncer un nouveau badge
      * @param Badge $badge
+     * @param User $user
      * @return int
      */
     public function badgeUnlocked(Badge $badge, User $user) {
