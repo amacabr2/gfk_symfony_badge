@@ -32,7 +32,7 @@ class BadgeUnlock
     /**
      * @var \AppBundle\Entity\User
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Badge")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
      */
     private $user;
 
@@ -41,8 +41,7 @@ class BadgeUnlock
      *
      * @return int
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -53,8 +52,7 @@ class BadgeUnlock
      *
      * @return BadgeUnlock
      */
-    public function setBadge(\Amacabr2\BadgeBundle\Entity\Badge $badge = null)
-    {
+    public function setBadge(\Amacabr2\BadgeBundle\Entity\Badge $badge = null) {
         $this->badge = $badge;
 
         return $this;
@@ -65,8 +63,7 @@ class BadgeUnlock
      *
      * @return \Amacabr2\BadgeBundle\Entity\Badge
      */
-    public function getBadge()
-    {
+    public function getBadge() {
         return $this->badge;
     }
 
@@ -77,8 +74,7 @@ class BadgeUnlock
      *
      * @return BadgeUnlock
      */
-    public function setUser(\AppBundle\Entity\Badge $user = null)
-    {
+    public function setUser(\AppBundle\Entity\Badge $user = null) {
         $this->user = $user;
 
         return $this;
@@ -87,10 +83,9 @@ class BadgeUnlock
     /**
      * Get user
      *
-     * @return \AppBundle\Entity\Badge
+     * @return \AppBundle\Entity\User
      */
-    public function getUser()
-    {
+    public function getUser() {
         return $this->user;
     }
 }
