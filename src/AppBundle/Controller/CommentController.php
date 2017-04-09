@@ -36,7 +36,11 @@ class CommentController extends Controller {
 
         if ($form->isSubmitted() and $form->isValid()) {
             $em->persist($comment);
+            $em->getConnection()->beginTransaction();
             $em->flush();
+            $commentsCount = $em->getRepository('AppBundle:Comment')->countForUser($user->getId());
+            $this->get('badge.manager')->checkAndUnlock($user->getId(), 'comment', $commentsCount);
+            $em->getConnection()->commit();
         }
 
         $comments = $em->getRepository('AppBundle:Comment')->findAll();
