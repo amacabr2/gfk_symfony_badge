@@ -2,6 +2,7 @@
 
 namespace Tests\AppBundle\Controller;
 
+use Amacabr2\BadgeBundle\Event\BadgeUnlockedEvent;
 use AppBundle\DataFixtures\ORM\LoadBadgeData;
 use AppBundle\DataFixtures\ORM\LoadUserData;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
@@ -29,6 +30,8 @@ class CommentControllerTest extends WebTestCase {
             LoadBadgeData::class
         ])->getReferenceRepository();
         $user = $references->getReference('user');
+
+        // On obtient une 200
         $this->loginAs($user, 'main');
         $client = $this->makeClient();
         $crawler = $client->request('GET', '/create');
@@ -39,10 +42,13 @@ class CommentControllerTest extends WebTestCase {
         $form->setValues(array(
            'appbundle_comment[content]' => 'Salut les gens ! '
         ));
+        $client->enableProfiler();
         $client->submit($form);
+        $mailCollector = $client->getProfile()->getCollector('swiftmailer');
         $this->assertStatusCode('200', $client);
         $this->assertCount(1, $em->getRepository('AppBundle:Comment')->findAll());
         $this->assertCount(1, $em->getRepository('BadgeBundle:BadgeUnlock')->findAll());
+        $this->assertEquals(1, $mailCollector->getMessageCount());
 
     }
 
