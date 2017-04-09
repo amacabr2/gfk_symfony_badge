@@ -30,7 +30,7 @@ class CommentControllerTest extends WebTestCase {
         $crawler = $client->request('GET', '/create');
         $this->assertStatusCode('200', $client);
 
-        //Poste un commentaire
+        // Poste un commentaire
         $form = $crawler->selectButton('Commenter')->form();
         $form->setValues(array(
            'appbundle_comment[content]' => 'Salut les gens ! '
@@ -38,6 +38,7 @@ class CommentControllerTest extends WebTestCase {
         $client->submit($form);
         $this->assertStatusCode('200', $client);
         $this->assertCount(1, $em->getRepository('AppBundle:Comment')->findAll());
+        $this->assertCount(1, $em->getRepository('BadgeBundle:BadgeUnlock')->findAll());
 
     }
 
