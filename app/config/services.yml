@@ -4,6 +4,9 @@ parameters:
     #parameter_name: value
 
 services:
+    app.mailer:
+        class: AppBundle\Mailer\AppMailer
+        arguments: ['@mailer', '@templating']
     app.badge_subscriber:
         class: AppBundle\Subscriber\BadgeSubscriber
         tags:
