@@ -15,7 +15,7 @@ class SecurityController extends Controller {
      * @method ("GET")
      * @return Response
      */
-    public function loginAction(): Response {
+    public function loginAction() {
 
         $authentificationUtils = $this->get('security.authentication_utils');
         $error = $authentificationUtils->getLastAuthenticationError();
