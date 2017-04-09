@@ -1,1 +1,31 @@
-<h1>Ajouter un commentaire</h1>
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="row">
+
+        <div class="col-lg-8">
+
+            <div class="well">
+                <h1>Commentaires</h1>
+                {% for comment in comments if comments is not empty%}
+                    <p>
+                        <strong>{{ comment.user.username }}</strong><br>
+                        {{ comment.content }}
+                    </p>
+                {% else %}
+                    <i>Pas de commentaires pour le moment</i>
+                {% endfor %}
+            </div>
+
+
+            <h1>Ajouter un commentaire</h1>
+            {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <button class="btn btn-primary">Commenter</button>
+            {{ form_end(form) }}
+        </div>
+
+    </div>
+
+{% endblock %}
