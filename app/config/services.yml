@@ -9,5 +9,6 @@ services:
         arguments: ['@mailer', '@templating']
     app.badge_subscriber:
         class: AppBundle\Subscriber\BadgeSubscriber
+        arguments: ['@app.mailer']
         tags:
             - {name: kernel.event_subscriber}

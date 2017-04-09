@@ -4,9 +4,22 @@ namespace AppBundle\Subscriber;
 
 
 use Amacabr2\BadgeBundle\Event\BadgeUnlockedEvent;
+use AppBundle\Mailer\AppMailer;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class BadgeSubcriber implements EventSubscriberInterface {
+class BadgeSubscriber implements EventSubscriberInterface {
+    /**
+     * @var AppMailer
+     */
+    private $mailer;
+
+    /**
+     * BadgeSubscriber constructor.
+     * @param AppMailer $mailer
+     */
+    public function __construct(AppMailer $mailer) {
+        $this->mailer = $mailer;
+    }
 
     /**
      * Returns an array of event names this subscriber wants to listen to.
@@ -33,7 +46,7 @@ class BadgeSubcriber implements EventSubscriberInterface {
     }
 
     public function onBadgeUnlock(BadgeUnlockedEvent $event) {
-        dump('salut');
+       return $this->mailer->badgeUnlocked($event->getBadge(), $event->getUser());
     }
 
 }
