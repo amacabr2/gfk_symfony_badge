@@ -10,6 +10,7 @@ namespace AppBundle\Controller;
 
 
 use AppBundle\Entity\Comment;
+use AppBundle\Event\CommentCreateEvent;
 use AppBundle\Form\CommentType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,8 +39,7 @@ class CommentController extends Controller {
             $em->persist($comment);
             $em->getConnection()->beginTransaction();
             $em->flush();
-            $commentsCount = $em->getRepository('AppBundle:Comment')->countForUser($user->getId());
-            $this->get('badge.manager')->checkAndUnlock($user, 'comment', $commentsCount);
+            $this->get('event_dispatcher')->dispatch(CommentCreateEvent::NAME, new CommentCreateEvent($comment));
             $em->getConnection()->commit();
         }
 

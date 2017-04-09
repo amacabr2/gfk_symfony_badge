@@ -9,6 +9,6 @@ services:
         arguments: ['@mailer', '@templating']
     app.badge_subscriber:
         class: AppBundle\Subscriber\BadgeSubscriber
-        arguments: ['@app.mailer']
+        arguments: ['@app.mailer', '@doctrine.orm.entity_manager', '@badge.manager']
         tags:
             - {name: kernel.event_subscriber}

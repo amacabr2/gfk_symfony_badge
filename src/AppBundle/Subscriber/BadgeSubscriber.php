@@ -4,21 +4,37 @@ namespace AppBundle\Subscriber;
 
 
 use Amacabr2\BadgeBundle\Event\BadgeUnlockedEvent;
+use Amacabr2\BadgeBundle\Manager\BadgeManager;
+use AppBundle\Event\CommentCreateEvent;
 use AppBundle\Mailer\AppMailer;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class BadgeSubscriber implements EventSubscriberInterface {
+
     /**
      * @var AppMailer
      */
     private $mailer;
+    /**
+     * @var ObjectManager
+     */
+    private $em;
+    /**
+     * @var BadgeManager
+     */
+    private $badgeManager;
 
     /**
      * BadgeSubscriber constructor.
      * @param AppMailer $mailer
+     * @param ObjectManager $em
+     * @param BadgeManager $badgeManager
      */
-    public function __construct(AppMailer $mailer) {
+    public function __construct(AppMailer $mailer, ObjectManager $em, BadgeManager $badgeManager) {
         $this->mailer = $mailer;
+        $this->em = $em;
+        $this->badgeManager = $badgeManager;
     }
 
     /**
@@ -41,12 +57,19 @@ class BadgeSubscriber implements EventSubscriberInterface {
      */
     public static function getSubscribedEvents() {
         return [
-            BadgeUnlockedEvent::NAME => 'onBadgeUnlock'
+            BadgeUnlockedEvent::NAME => 'onBadgeUnlock',
+            CommentCreateEvent::NAME => 'onNewComment'
         ];
     }
 
     public function onBadgeUnlock(BadgeUnlockedEvent $event) {
        return $this->mailer->badgeUnlocked($event->getBadge(), $event->getUser());
+    }
+
+    public function onNewComment(CommentCreateEvent $event) {
+        $user = $event->getComment()->getUser();
+        $commentsCount = $this->em->getRepository('AppBundle:Comment')->countForUser($user->getId());
+        $this->badgeManager->checkAndUnlock($user, 'comment', $commentsCount);
     }
 
 }
